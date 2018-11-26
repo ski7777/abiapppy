@@ -30,6 +30,20 @@ class Connection:
         self.session.verify = verify
         self.csrfmiddlewaretoken = ''
         self.loadLoginPage()
+        self.login(email, password)
 
     def loadLoginPage(self):
         self.session.get(self.url.getLoginURL())
+
+    def login(self, email, password):
+        payload = {
+            'email': email,
+            'password': password
+        }
+        req = self.session.post(self.url.getLoginURL(), data=payload)
+        if req.status_code != 200:
+            raise ValueError
+        if len(req.history) > 0:
+            if req.history[0].status_code == 302:
+                return
+        raise ValueError
