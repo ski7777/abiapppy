@@ -7,3 +7,6 @@ class URL:
     def __init__(self, url):
         self.url = url
 
+    def getLoginURL(self):
+        return(self.url + '/login')
+

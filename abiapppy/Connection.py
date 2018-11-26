@@ -4,6 +4,8 @@
 
 from bs4 import BeautifulSoup
 from .Session import Session
+from .URL import URL
+
 class Connection:
 
     def __init__(self, url, email, password, verify=True):
@@ -27,3 +29,7 @@ class Connection:
 
         self.session.verify = verify
         self.csrfmiddlewaretoken = ''
+        self.loadLoginPage()
+
+    def loadLoginPage(self):
+        self.session.get(self.url.getLoginURL())
