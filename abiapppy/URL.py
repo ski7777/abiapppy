@@ -10,3 +10,6 @@ class URL:
     def getLoginURL(self):
         return(self.url + '/login')
 
+    def getLogoutURL(self):
+        return(self.url + '/logout')
+

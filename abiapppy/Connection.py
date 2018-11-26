@@ -47,3 +47,7 @@ class Connection:
             if req.history[0].status_code == 302:
                 return
         raise ValueError
+
+    def logout(self):
+        self.session.get(self.url.getLogoutURL())
+
