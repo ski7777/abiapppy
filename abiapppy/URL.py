@@ -24,3 +24,6 @@ class URL:
 
     def getAddPersonURL(self):
         return(self.getPersonsURL() + '/hinzufuegen')
+
+    def getDeletePersonURL(self):
+        return(self.getPersonsURL() + '/loeschen')

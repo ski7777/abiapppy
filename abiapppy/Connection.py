@@ -96,3 +96,14 @@ class Connection:
     def addPerson(self, payload):
         # add person (student/teacher)
         self.session.post(self.url.getAddPersonURL(), data=payload)
+
+    def deletePerson(self, pid):
+        # generate data
+        payload = {
+            'id': pid
+        }
+        # execute it!
+        self.session.post(self.url.getDeletePersonURL(), data=payload)
+
+    # all the three are the same
+    deleteStudent = deleteTeacher = deletePerson
