@@ -3,8 +3,23 @@
 #
 
 from bs4 import BeautifulSoup
+
 from .Session import Session
 from .URL import URL
+
+genders = {
+    'male': 'm',
+    'female': 'f'
+}
+rawgenders = dict([(v, k) for k, v in genders.items()])
+permissions = {
+    'blocked': '0',
+    'student': 'U',
+    'editor': 'E',
+    'admin': 'A'
+}
+rawpermissions = dict([(v, k) for k, v in permissions.items()])
+
 
 class Connection:
 
