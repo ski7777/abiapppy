@@ -30,3 +30,9 @@ class URL:
 
     def getDeletePersonURL(self):
         return(self.getPersonsURL() + '/loeschen')
+
+    def getStudentsListURL(self):
+        return(self.getClassURL() + '/schuelerliste')
+
+    def getTeachersListURL(self):
+        return(self.getClassURL() + '/lehrerliste')

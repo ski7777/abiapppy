@@ -110,6 +110,60 @@ class Connection:
     # all the three are the same
     deleteStudent = deleteTeacher = deletePerson
 
+    def getStudents(self):
+        return(self.parsePersonsList(self.url.getStudentsListURL()))
+
+    def getTeachers(self):
+        return(self.parsePersonsList(self.url.getTeachersListURL()))
+
+    def parsePersonsList(self, url):
+        persons = []
+        # load page
+        req = self.session.get(url)
+        # load html
+        rawdata = BeautifulSoup(req.text, features='lxml')
+        # iterate over persons
+        for p in rawdata.findAll('div', {'class': 'person'}):
+            # get basic data
+            person = {
+                'id': p.get('data-id'),
+                'type': p.get('data-persontype')
+            }
+            # iterate over some fields (Type one)
+            for f in p.findAll('div', {'class': 'edit-group-inline'}):
+                # get name of field (Method one)
+                n = f.get('data-name')
+                # if this fails
+                if n is None:
+                    # get name of field (Method two)
+                    n = f.find(
+                        'label').text[::-1].replace(':', '', 1)[::-1].strip()
+                # try to find data
+                for t in ['a', 'div', 'span']:
+                    # check whether this is the invitation status field
+                    if 'user' in f['class']:
+                        # add data to user
+                        n = 'access'
+                        if 'invited' in f['class']:
+                            person[n] = 'invited'
+                        elif 'fb' in f['class']:
+                            person[n] = 'facebook'
+                        else:
+                            person[n] = 'password'
+                    # try to get the data and save it
+                    try:
+                        person[n] = f.find(
+                            t, {'class': 'val'}).text.strip()
+                    except AttributeError:
+                        pass
+            # iterate over some fields (Type two)
+            for f in p.findAll(lambda tag: tag.name == 'div'
+                               and 'data-editable' in tag.attrs):
+                # get name and value of field and save it
+                person[f.get('name')] = f.text.strip()
+            persons.append(person)
+        return(persons)
+
     def getInvitationCode(self, sid):
         # generate data
         payload = {
