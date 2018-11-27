@@ -45,12 +45,14 @@ class Connection:
                 # ignore errors
                 pass
 
-        # define call to add csrfmiddlewaretoken to every request
+        # define call to add csrfmiddlewaretoken and ajax=1 to every request
         @self.session.addCallBefore(self)
-        def addToken(self, args, kwargs):
+        def prepareData(self, args, kwargs):
             # add only if data in request
             if 'data' in kwargs:
-                kwargs['data']['csrfmiddlewaretoken'] = self.csrfmiddlewaretoken
+                if isinstance(kwargs['data'], dict):
+                    kwargs['data']['csrfmiddlewaretoken'] = self.csrfmiddlewaretoken
+                    kwargs['data']['ajax'] = '1'
             # return new arguments
             return args, kwargs
 
