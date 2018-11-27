@@ -24,7 +24,8 @@ class Connection:
             try:
                 # get token
                 self.csrfmiddlewaretoken = BeautifulSoup(
-                    req.text, features='lxml').find('input').get('value')
+                    req.text, features='lxml').find(
+                    'input', {'name': 'csrfmiddlewaretoken'}).get('value')
             except AttributeError:
                 # ignore errors
                 pass
@@ -53,9 +54,6 @@ class Connection:
         }
         # try to login
         req = self.session.post(self.url.getLoginURL(), data=payload)
-        if req.status_code != 200:
-            raise ValueError
-        if len(req.history) > 0:
         # expected status code is 200 with one redirect (302)
         # if something goes wrong raise ValueError
         if req.status_code == 200 and len(req.history) == 1:
