@@ -25,5 +25,8 @@ class URL:
     def getAddPersonURL(self):
         return(self.getPersonsURL() + '/hinzufuegen')
 
+    def getInvitationCodeURL(self):
+        return(self.getPersonsURL() + '/einladen')
+
     def getDeletePersonURL(self):
         return(self.getPersonsURL() + '/loeschen')

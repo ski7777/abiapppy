@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 #
 
+import json
+
 from bs4 import BeautifulSoup
 
 from .Session import Session
@@ -107,3 +109,18 @@ class Connection:
 
     # all the three are the same
     deleteStudent = deleteTeacher = deletePerson
+
+    def getInvitationCode(self, sid):
+        # generate data
+        payload = {
+            'id': sid
+        }
+        # load json
+        data = json.loads(self.session.post(
+            self.url.getInvitationCodeURL(), data=payload).text)
+        # try to find and return code
+        if 'type' in data:
+            if data['type'] == 'invite':
+                return(data['code'])
+        # if not found (due error) raise ValueError
+        raise ValueError
