@@ -13,3 +13,14 @@ class URL:
     def getLogoutURL(self):
         return(self.url + '/logout')
 
+    def getAdminURL(self):
+        return(self.url + '/administration')
+
+    def getClassURL(self):
+        return(self.getAdminURL() + '/stufe')
+
+    def getPersonsURL(self):
+        return(self.getClassURL() + '/personen')
+
+    def getAddPersonURL(self):
+        return(self.getPersonsURL() + '/hinzufuegen')

@@ -81,3 +81,18 @@ class Connection:
     def logout(self):
         self.session.get(self.url.getLogoutURL())
 
+    def addStudent(self, firstname, lastname, sex, permission):
+        # generate data
+        payload = {
+            'firstname': firstname,
+            'lastname': lastname,
+            'sex': genders[sex],
+            'role': permissions[permission],
+            'persontype': 'S'
+        }
+        # execute it!
+        self.addPerson(payload)
+
+    def addPerson(self, payload):
+        # add person (student/teacher)
+        self.session.post(self.url.getAddPersonURL(), data=payload)
