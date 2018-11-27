@@ -29,3 +29,6 @@ class ExamplesBase:
 
     def setDescription(self, name):
         self.parser.description = name
+
+    def __getattr__(self, name):
+        return(getattr(self.parse(), name))
